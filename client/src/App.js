@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import QueryPanel from './components/QueryPanel';
 import ResultsPanel from './components/ResultsPanel';
-import Pagination from './components/Pagination';
+// import Pagination from './components/Pagination';
 import StarBackground from './components/StarBackground';
-
+import Pagination from '@mui/material/Pagination';
 
 function App() {
   const [filters, setFilters] = useState({
@@ -26,6 +26,7 @@ function App() {
     sortBy: '',
     sortOrder: 'asc',
   });
+  const [hasSearched, setHasSearched] = useState(false);
 
   // Fetch filter options on component mount
   useEffect(() => {
@@ -34,10 +35,10 @@ function App() {
 
   // Fetch results when query params change
   useEffect(() => {
-    if (!loading) {
+    if (!loading && hasSearched) {
       fetchResults();
     }
-  }, [queryParams.page, queryParams.sortBy, queryParams.sortOrder]);
+  }, [queryParams.page, queryParams.sortBy, queryParams.sortOrder, hasSearched]);
 
   const fetchFilters = async () => {
     try {
@@ -90,6 +91,7 @@ function App() {
 
     // Reset page to 1 when performing a new search
     setQueryParams(prev => ({ ...prev, page: 1 }));
+    setHasSearched(true);
     fetchResults();
   };
 
@@ -105,6 +107,7 @@ function App() {
     });
     setResults({ data: [], total: 0 });
     setError(null);
+    setHasSearched(false); // This prevents the API call after clearing
   };
 
   const handleSort = (column) => {
@@ -146,10 +149,20 @@ function App() {
               sortColumn={queryParams.sortBy}
               sortOrder={queryParams.sortOrder}
             />
-            <Pagination
+            {/* <Pagination
               currentPage={queryParams.page}
               totalPages={results.totalPages}
               onPageChange={handlePageChange}
+            /> */}
+            <Pagination
+              className='pagination'
+              count={results.totalPages}
+              page={queryParams.page}
+              onChange={(event, newPage) => handlePageChange(newPage)}
+              color="primary"
+              shape="rounded"
+              showFirstButton
+              showLastButton
             />
           </>
         )}

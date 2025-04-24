@@ -340,7 +340,7 @@ a:hover::after {
   gap: 8px;
 }
 
-.page-button {
+.pagination .MuiPaginationItem-root, .page-button {
   min-width: 40px;
   height: 40px;
   display: flex;
@@ -355,12 +355,12 @@ a:hover::after {
   border-radius: 4px;
 }
 
-.page-button:hover:not(:disabled) {
+.pagination .MuiPaginationItem-root:hover:not(:disabled), .page-button:hover:not(:disabled) {
   background-color: rgba(10, 10, 40, 0.6);
   border-color: var(--primary);
 }
 
-.page-button.active {
+.pagination .MuiPaginationItem-root.Mui-selected, .page-button.active {
   background-color: var(--primary);
   color: var(--darker);
   border-color: var(--primary);
