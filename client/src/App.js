@@ -3,6 +3,8 @@ import './App.css';
 import QueryPanel from './components/QueryPanel';
 import ResultsPanel from './components/ResultsPanel';
 import Pagination from './components/Pagination';
+import StarBackground from './components/StarBackground';
+
 
 function App() {
   const [filters, setFilters] = useState({
@@ -54,18 +56,18 @@ function App() {
     setLoading(true);
     try {
       const { year, method, host, facility, page, sortBy, sortOrder } = queryParams;
-      
+
       let url = `http://localhost:5000/api/exoplanets?page=${page}`;
       if (year) url += `&year=${year}`;
       if (method) url += `&method=${method}`;
       if (host) url += `&host=${host}`;
       if (facility) url += `&facility=${facility}`;
       if (sortBy) url += `&sortBy=${sortBy}&sortOrder=${sortOrder}`;
-      
+
       const response = await fetch(url);
       const data = await response.json();
       console.log("fetch results data", data)
-      
+
       if (response.ok) {
         setResults(data);
         setError(null);
@@ -119,8 +121,10 @@ function App() {
 
   return (
     <div className="App">
+      <StarBackground />
       <header>
         <h1>NASA Exoplanet Query</h1>
+        <p className="subtitle">Explore the cosmos: {results.total > 0 ? results.total : '4,000+'} exoplanets discovered since 1992</p>
       </header>
       <main>
         <QueryPanel
@@ -131,14 +135,14 @@ function App() {
           onClear={handleClear}
           loading={loading}
         />
-        
+
         {error && <div className="error-message">{error}</div>}
-        
+
         {results.data.length > 0 && (
           <>
-            <ResultsPanel 
-              results={results.data} 
-              onSort={handleSort} 
+            <ResultsPanel
+              results={results.data}
+              onSort={handleSort}
               sortColumn={queryParams.sortBy}
               sortOrder={queryParams.sortOrder}
             />
