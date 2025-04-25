@@ -117,7 +117,7 @@ npx playwright show-report
 ## Design Decisions & Assumptions
 
 ### Data Loading & Storage
-- I chose to load all exoplanet data on server startup rather than querying NASA's API for each user request. This design decision improves response time for user queries at the cost of a slightly longer initial server startup.
+- I chose to load all exoplanet data on server startup rather than querying NASA's API for each user request. This design decision improves response time for subsequent user queries.
 - The data is stored in memory for fast access for the POC. Future improvements can store the data in a database instead of loading into memory.
 
 ### Filter Implementation
