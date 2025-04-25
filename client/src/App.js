@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import QueryPanel from './components/QueryPanel';
 import ResultsPanel from './components/ResultsPanel';
-// import Pagination from './components/Pagination';
 import StarBackground from './components/StarBackground';
 import Pagination from '@mui/material/Pagination';
 
@@ -149,11 +148,6 @@ function App() {
               sortColumn={queryParams.sortBy}
               sortOrder={queryParams.sortOrder}
             />
-            {/* <Pagination
-              currentPage={queryParams.page}
-              totalPages={results.totalPages}
-              onPageChange={handlePageChange}
-            /> */}
             <Pagination
               className='pagination'
               count={results.totalPages}
