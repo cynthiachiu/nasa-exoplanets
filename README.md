@@ -30,7 +30,7 @@ This application allows users to search through NASA's exoplanet data using vari
 
 ### Frontend
 - React
-- CSS (with responsive design)
+- CSS
 
 ### Testing
 - Playwright for end-to-end testing
@@ -44,7 +44,7 @@ This application allows users to search through NASA's exoplanet data using vari
 ### Backend Setup
 1. Clone the repository:
    ```
-   git clone <repository-url>
+   git clone git@github.com:cynthiachiu/nasa-exoplanets.git
    cd nasa-exoplanet-query
    ```
 
@@ -128,15 +128,92 @@ npx playwright show-report
 - End-to-end tests with Playwright were chosen to verify the entire application flow rather than just unit testing isolated components.
 - Tests are designed to be resilient to small UI changes by focusing on functionality rather than exact layout.
 
-<!-- ## Future Improvements
+## Future Improvements
 
 1. **Caching Layer**: Implement Redis or similar caching for frequently accessed queries
-2. **Advanced Filtering**: Add range filters for numerical values and fuzzy search for text fields
-3. **Data Visualization**: Add charts and graphs for discovery trends
-4. **Offline Support**: Implement service workers for offline functionality
-5. **Server-Side Rendering**: Convert to Next.js for improved SEO and initial load performance
-6. **Data Export**: Allow users to export filtered results in various formats
-7. **Saved Searches**: Enable users to save and name common searches
-8. **Dark Mode**: Add theme support for better user experience
-9. **Performance Optimization**: Implement virtualized lists for handling larger result sets
-10. **More Comprehensive Tests**: Add unit tests and API-level tests in addition to E2E tests -->
+2. **Server-Side Rendering**: Convert to Next.js for improved SEO and initial load performance
+
+Migrating to Next.js for Enhanced Performance and SEO
+To further improve scalability and performance, this project could be migrated to Next.js, a React framework that supports server-side rendering (SSR) out of the box. By handling filtering, sorting, and pagination on the server, we reduce the client-side workload and speed up initial page loads — especially important when working with large datasets like NASA's 20,000+ exoplanet records.
+
+Benefits of using Next.js with SSR:
+
+⚡ Faster initial page loads by pre-rendering filtered result pages on the server.
+
+🧠 Better SEO for public searchability of queryable results (e.g. /exoplanets?method=Transit).
+
+🧹 Cleaner code split between client logic (UI interactions) and server logic (data fetching).
+
+🔁 We can eliminate the separate calls to our backend by fetching data directly during the rendering process.
+
+This transition would involve replacing the Express server with Next.js API routes and refactoring React components to leverage getServerSideProps() for dynamic data fetching wherein:
+- `getServerSideProps` gets called on initial page load and navigation to that page with new query parameters
+- It passes the returned data as props to the `Exoplanets` component
+- Renders the full HTML page on the server and sends that fully rendered HTML to the browser
+
+```
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+
+export async function getServerSideProps(context) {
+  const { year = '', method = '', page = 1 } = context.query;
+
+  const query = new URLSearchParams({ year, method, page }).toString();
+  const res = await fetch(`http://localhost:3000/api/exoplanets?${query}`);
+  const data = await res.json();
+
+  return {
+    props: {
+      exoplanets: data.data,
+      totalPages: data.totalPages,
+      currentPage: data.page,
+      filters: { year, method },
+    },
+  };
+}
+
+export default function Exoplanets({ exoplanets, totalPages, currentPage, filters }) {
+  const router = useRouter();
+
+  const handleFilter = (e) => {
+    e.preventDefault();
+    const year = e.target.year.value;
+    const method = e.target.method.value;
+    router.push(`/exoplanets?year=${year}&method=${method}`);
+  };
+
+  return (
+    <div>
+      <h1>Exoplanet Explorer</h1>
+
+      <form onSubmit={handleFilter}>
+        <input name="year" placeholder="Year" defaultValue={filters.year} />
+        <input name="method" placeholder="Method" defaultValue={filters.method} />
+        <button type="submit">Search</button>
+      </form>
+
+      <ul>
+        {exoplanets.map((planet, idx) => (
+          <li key={idx}>{planet.hostname} - {planet.disc_year}</li>
+        ))}
+      </ul>
+
+      <div>
+        {Array.from({ length: totalPages }, (_, i) => (
+          <Link
+            key={i}
+            href={{
+              pathname: '/exoplanets',
+              query: { ...filters, page: i + 1 }
+            }}
+          >
+            <a style={{ marginRight: 10, fontWeight: i + 1 === currentPage ? 'bold' : 'normal' }}>
+              {i + 1}
+            </a>
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
+}
+```
