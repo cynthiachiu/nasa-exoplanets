@@ -4,6 +4,7 @@ This application allows users to search through NASA's exoplanet data using vari
 
 ## Table of Contents
 - [Features](#features)
+- [Workflow and Demo](#workflow-and-demo)
 - [Tech Stack](#tech-stack)
 - [Setup Instructions](#setup-instructions)
 - [Running the Application](#running-the-application)
