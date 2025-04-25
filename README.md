@@ -29,7 +29,7 @@ This application allows users to search through NASA's exoplanet data using vari
 - CSV parser
 
 ### Frontend
-- React
+- React with components for modularity and extensiblity
 - CSS
 
 ### Testing
