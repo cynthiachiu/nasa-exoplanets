@@ -96,12 +96,12 @@ npm run test:e2e
 This will run the Playwright tests and generate an HTML report with the results.
 
 ### Viewing Test Reports
-After running tests, you can view the HTML report:
+After running tests, you can view the HTML report which includes screenshots of the failed test when you click into it:
 
 ```
 npx playwright show-report
 ```
-
+![alt text](image-1.png)
 ## Design Decisions & Assumptions
 
 ### Data Loading & Storage
