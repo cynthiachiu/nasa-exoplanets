@@ -41,7 +41,7 @@ https://github.com/user-attachments/assets/d9c9ffb1-308a-4e47-9558-5235f13639ee
 - CSV parser
 
 ### Frontend
-- React with components for modularity and extensiblity
+- React with components and custom hooks for modularity and extensiblity with separation of layout and services
 - CSS
 
 ### Testing
