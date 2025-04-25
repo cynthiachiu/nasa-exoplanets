@@ -45,7 +45,7 @@ This application allows users to search through NASA's exoplanet data using vari
 1. Clone the repository:
    ```
    git clone git@github.com:cynthiachiu/nasa-exoplanets.git
-   cd nasa-exoplanet-query
+   cd nasa-exoplanets
    ```
 
 2. Install backend dependencies:
@@ -106,7 +106,7 @@ npx playwright show-report
 
 ### Data Loading & Storage
 - I chose to load all exoplanet data on server startup rather than querying NASA's API for each user request. This design decision improves response time for user queries at the cost of a slightly longer initial server startup.
-- The data is stored in memory for fast access, assuming the dataset size (approx. 4,000 records) is manageable for a typical server.
+- The data is stored in memory for fast access for the POC. Future improvements can store the data in a database instead of loading into memory.
 
 ### Filter Implementation
 - Dropdowns are populated with unique values from the dataset to ensure users only select valid options.
@@ -125,16 +125,15 @@ npx playwright show-report
 - Separate endpoints were created for filter options and exoplanet data to allow the frontend to load the UI before data is available.
 
 ### Testing Approach
-- End-to-end tests with Playwright were chosen to verify the entire application flow rather than just unit testing isolated components.
-- Tests are designed to be resilient to small UI changes by focusing on functionality rather than exact layout.
+- End-to-end tests with Playwright were used to verify the entire application flow.
+- Tests are designed to be resilient to small UI changes by focusing on functionality.
 
 ## Future Improvements
 
 1. **Caching Layer**: Implement Redis or similar caching for frequently accessed queries
 2. **Server-Side Rendering**: Convert to Next.js for improved SEO and initial load performance
 
-Migrating to Next.js for Enhanced Performance and SEO
-To further improve scalability and performance, this project could be migrated to Next.js, a React framework that supports server-side rendering (SSR) out of the box. By handling filtering, sorting, and pagination on the server, we reduce the client-side workload and speed up initial page loads — especially important when working with large datasets like NASA's 20,000+ exoplanet records.
+This project could be migrated to Next.js, a React framework that supports server-side rendering (SSR) out of the box. By handling filtering, sorting, and pagination on the server, we reduce the client-side workload and speed up initial page loads — especially important when working with large datasets like NASA's exoplanet records.
 
 Benefits of using Next.js with SSR:
 
