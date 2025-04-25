@@ -20,6 +20,17 @@ This application allows users to search through NASA's exoplanet data using vari
 - 🔄 Sort functionality for all columns
 - ✅ Comprehensive automated testing with Playwright
 
+## Workflow and Demo
+
+https://github.com/user-attachments/assets/d9c9ffb1-308a-4e47-9558-5235f13639ee
+
+- User can query NASA's exoplanet archive on year of discovery, discovery method, host name, and discovery facility using the dropdown filters, `Clear` and `Search` buttons
+- If the `Search` button was clicked but no query values were selected, an error message is presented
+- If a valid search was performed, user can see the matching exoplanet data displayed in tabular format in the query panel
+- User can click on the hostname which is a hyperlink to NASA's Confirmed Planet Overview Page for the selected planet in a new browser tab
+- Sorting functionality in ascending and descending order is available via the results panel
+- Pagination functionality is available via MUI's component and backend filtering
+
 ## Tech Stack
 
 ### Backend
