@@ -125,7 +125,7 @@ npx playwright show-report
 - The filtering logic combines multiple criteria with an AND relationship, assuming users want to narrow down results rather than expand them.
 
 ### Pagination
-- A limit of 10 items per page was implemented to prevent overwhelming users with too much data at once.
+- A limit of 10 items per page was implemented to prevent overwhelming users with too much data at once. In the future, this can be extended so the user can set the number of items per page. The current design already includes the bones for this expansion.
 - The pagination control adapts to show a reasonable number of page links with ellipses for large result sets.
 
 ### Sorting
@@ -137,8 +137,8 @@ npx playwright show-report
 - Separate endpoints were created for filter options and exoplanet data to allow the frontend to load the UI before data is available.
 
 ### Testing Approach
-- End-to-end tests with Playwright were used to verify the entire application flow.
-- Tests are designed to be resilient to small UI changes by focusing on functionality.
+- End-to-end tests written with Playwright were used to verify the entire application flow.
+- Tests are designed to focus on functionality.
 
 ## Future Improvements
 
@@ -151,13 +151,13 @@ Benefits of using Next.js with SSR:
 
 ⚡ Faster initial page loads by pre-rendering filtered result pages on the server.
 
-🧠 Better SEO for public searchability of queryable results (e.g. /exoplanets?method=Transit).
+🧠 Better SEO for public searchability of queryable results.
 
 🧹 Cleaner code split between client logic (UI interactions) and server logic (data fetching).
 
 🔁 We can eliminate the separate calls to our backend by fetching data directly during the rendering process.
 
-This transition would involve replacing the Express server with Next.js API routes and refactoring React components to leverage getServerSideProps() for dynamic data fetching wherein:
+This transition would involve replacing the Express server with Next.js API routes and refactoring React components to leverage `getServerSideProps()` for dynamic data fetching wherein:
 - `getServerSideProps` gets called on initial page load and navigation to that page with new query parameters
 - It passes the returned data as props to the `Exoplanets` component
 - Renders the full HTML page on the server and sends that fully rendered HTML to the browser
